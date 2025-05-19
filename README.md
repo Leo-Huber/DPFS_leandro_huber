@@ -32,15 +32,13 @@ Soy Leandro Huber, estudiante de la carrera Full Stack en Digital House. Me entu
 
 ## 📐 Wireframes
 
-Los wireframes se encuentran en la carpeta `wireframes/` e incluyen:
+El wireframe se encuentra en la carpeta `wireframes/` e incluye:
 
 - Home
 - Detalle de producto
 - Carrito de compras
 - Formulario de registro
 - Formulario de login
-
-**Formato:** PNG / JPG / PDF / capturas de Figma, Wireframe.cc, etc.
 
 ---
 
