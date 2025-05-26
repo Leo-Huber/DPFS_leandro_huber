@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+  <% include ../partials/head.ejs %>
+<body>
+  <% include ../partials/header.ejs %>
+  <main>
+    <h2>Nuevo Producto</h2>
+    <form action="/products/create" method="post" enctype="multipart/form-data">
+      <input type="text" name="name" placeholder="Nombre">
+      <textarea name="description" placeholder="Descripción"></textarea>
+      <input type="file" name="image">
+      <input type="text" name="category" placeholder="Categoría">
+      <input type="text" name="colors" placeholder="Colores (separados por coma)">
+      <input type="number" step="0.01" name="price" placeholder="Precio">
+      <button class="btn" type="submit">Crear</button>
+    </form>
+  </main>
+  <% include ../partials/footer.ejs %>
+</body>
+</html>

@@ -19,5 +19,5 @@ Hola, soy Leonardo Huber, desarrollador full-stack con experiencia en Node.js, R
 5. **Farmdrop** – Historia de los agricultores, énfasis en procedencia de productos.
 
 ## Tablero de trabajo
-Link al tablero de organización (GitHub Projects):
-https://github.com/users/Leo-Huber/projects/1/views/1
+Link al tablero de organización (Trello):
+https://trello.com/b/TeR5T2rd/mi-tablero-de-trello

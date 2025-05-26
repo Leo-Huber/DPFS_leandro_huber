@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+  <% include ./partials/head.ejs %>
+<body>
+  <% include ./partials/header.ejs %>
+  <main>
+    <h2>Ofertas Destacadas</h2>
+    <div class="product-grid">
+      <% products.forEach(prod => { %>
+        <div class="product-card">
+          <a href="/products/<%= prod.id %>">
+            <img src="<%= prod.image %>" alt="<%= prod.name %>">
+            <h3><%= prod.name %></h3>
+          </a>
+          <p>$<%= prod.price.toFixed(2) %></p>
+        </div>
+      <% }) %>
+    </div>
+  </main>
+  <% include ./partials/footer.ejs %>
+</body>
+</html>

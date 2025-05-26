@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "firstName": "María",
+    "lastName": "Gómez",
+    "email": "maria@example.com",
+    "password": "hashed_password_1",
+    "category": "cliente",
+    "image": "/images/users/maria.jpg"
+  },
+  {
+    "id": 2,
+    "firstName": "Juan",
+    "lastName": "Pérez",
+    "email": "juan@example.com",
+    "password": "hashed_password_2",
+    "category": "administrador",
+    "image": "/images/users/juan.jpg"
+  }
+]

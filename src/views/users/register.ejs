@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Green Harvest - Registro</title>
-  <link rel="stylesheet" href="/css/styles.css">
-</head>
+  <% include ../partials/head.ejs %>
 <body>
-  <header><h1>Green Harvest</h1></header>
+  <% include ../partials/header.ejs %>
   <main>
     <h2>Registro de Usuario</h2>
-    <form action="#" method="post">
+    <form action="/users/register" method="post" enctype="multipart/form-data">
       <input type="text" name="name" placeholder="Nombre completo">
       <input type="email" name="email" placeholder="Correo electrónico">
       <input type="password" name="password" placeholder="Contraseña">
+      <input type="file" name="avatar">
       <button class="btn" type="submit">Registrarse</button>
     </form>
   </main>
-  <footer>&copy; 2025 Green Harvest</footer>
+  <% include ../partials/footer.ejs %>
 </body>
 </html>

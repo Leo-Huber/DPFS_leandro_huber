@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "name": "Manzanas Orgánicas",
+    "description": "Manzanas frescas y jugosas cultivadas sin pesticidas.",
+    "image": "/images/products/apples.jpg",
+    "category": "Frutas",
+    "colors": ["rojo", "verde"],
+    "price": 1.50
+  },
+  {
+    "id": 2,
+    "name": "Pan Integral Artesanal",
+    "description": "Pan hecho a mano con harina integral y levadura natural.",
+    "image": "/images/products/bread.jpg",
+    "category": "Panadería",
+    "colors": [],
+    "price": 2.75
+  },
+  {
+    "id": 3,
+    "name": "Café en Grano Orgánico",
+    "description": "Café 100% arábica de producción sostenible.",
+    "image": "/images/products/coffee.jpg",
+    "category": "Bebidas",
+    "colors": [],
+    "price": 5.99
+  }
+]
