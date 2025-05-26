@@ -9,7 +9,7 @@ Green Harvest es un marketplace de productos orgánicos y sostenibles, enfocado 
 - Consumidores concienciados con el impacto ambiental y social de sus compras.
 
 ## Sobre mí
-Hola, soy Leonardo Huber, desarrollador full-stack con experiencia en Node.js, React y bases de datos relacionales. Apasionado por construir soluciones web escalables y con buen diseño UX/UI.
+Hola, soy Leandro Huber, desarrollador full-stack con experiencia en Node.js, React y bases de datos relacionales. Apasionado por construir soluciones web escalables y con buen diseño UX/UI.
 
 ## Sitios de referencia
 1. **Thrive Market** – Diseño limpio, filtros avanzados para productos orgánicos.  
