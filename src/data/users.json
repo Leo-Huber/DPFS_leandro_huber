@@ -4,7 +4,7 @@
     "firstName": "María",
     "lastName": "Gómez",
     "email": "maria@example.com",
-    "password": "hashed_password_1",
+    "password": "$2a$10$V...hashed...",
     "category": "cliente",
     "image": "/images/users/maria.jpg"
   },
@@ -13,7 +13,7 @@
     "firstName": "Juan",
     "lastName": "Pérez",
     "email": "juan@example.com",
-    "password": "hashed_password_2",
+    "password": "$2a$10$X...hashed...",
     "category": "administrador",
     "image": "/images/users/juan.jpg"
   }

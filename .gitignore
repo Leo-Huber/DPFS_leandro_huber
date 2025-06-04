@@ -1,27 +1,26 @@
-# Dependencias de Node
+# Node dependencies
 node_modules/
 
-# Archivos de log
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Entorno
-.env
+# Environment
+env
 
-# Sistema operativo
+# OS files
 .DS_Store
 
-# Editor
-.vscode/
+# IDE\ n.vscode/
 .idea/
 
-# Salida de construcción
-/dist
-/build
+# Build outputs
+dist/
+build/
 
 # Coverage
 coverage/
 
-# Otros temporales
+# Temporary files
 *.tmp

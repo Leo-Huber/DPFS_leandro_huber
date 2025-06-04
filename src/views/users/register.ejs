@@ -1,18 +1,90 @@
 <!DOCTYPE html>
 <html lang="es">
-  <% include ../partials/head.ejs %>
+  <%- include('../partials/head') %>
 <body>
-  <% include ../partials/header.ejs %>
+  <%- include('../partials/header') %>
   <main>
     <h2>Registro de Usuario</h2>
-    <form action="/users/register" method="post" enctype="multipart/form-data">
-      <input type="text" name="name" placeholder="Nombre completo">
-      <input type="email" name="email" placeholder="Correo electrónico">
-      <input type="password" name="password" placeholder="Contraseña">
-      <input type="file" name="avatar">
+
+    <!-- Mostrar errores desde back-end -->
+    <% if (errors.firstName) { %>
+      <p class="error"><%= errors.firstName.msg %></p>
+    <% } %>
+    <% if (errors.lastName) { %>
+      <p class="error"><%= errors.lastName.msg %></p>
+    <% } %>
+    <% if (errors.email) { %>
+      <p class="error"><%= errors.email.msg %></p>
+    <% } %>
+    <% if (errors.password) { %>
+      <p class="error"><%= errors.password.msg %></p>
+    <% } %>
+
+    <form id="formRegister" action="/users/register" method="post" enctype="multipart/form-data" novalidate>
+      <input type="text" name="firstName" id="firstName" placeholder="Nombre" required minlength="2">
+      <small class="field-error" id="errorFirstName"></small>
+
+      <input type="text" name="lastName" id="lastName" placeholder="Apellido" required minlength="2">
+      <small class="field-error" id="errorLastName"></small>
+
+      <input type="email" name="email" id="email" placeholder="Correo electrónico" required>
+      <small class="field-error" id="errorEmail"></small>
+
+      <input type="password" name="password" id="password" placeholder="Contraseña" required minlength="8">
+      <small class="field-error" id="errorPassword"></small>
+
+      <label for="avatar">Avatar:</label>
+      <input type="file" name="avatar" id="avatar" accept="image/*">
+      <br>
+
       <button class="btn" type="submit">Registrarse</button>
     </form>
   </main>
-  <% include ../partials/footer.ejs %>
+
+  <%- include('../partials/footer') %>
+
+  <!-- Validación front-end con JS -->
+  <script>
+    document.getElementById('formRegister').addEventListener('submit', function (e) {
+      let valid = true;
+
+      // Limpiar errores previos
+      document.getElementById('errorFirstName').textContent = '';
+      document.getElementById('errorLastName').textContent = '';
+      document.getElementById('errorEmail').textContent = '';
+      document.getElementById('errorPassword').textContent = '';
+
+      // Validar nombre
+      const fn = document.getElementById('firstName');
+      if (fn.value.trim().length < 2) {
+        document.getElementById('errorFirstName').textContent = 'El nombre debe tener al menos 2 caracteres';
+        valid = false;
+      }
+
+      // Validar apellido
+      const ln = document.getElementById('lastName');
+      if (ln.value.trim().length < 2) {
+        document.getElementById('errorLastName').textContent = 'El apellido debe tener al menos 2 caracteres';
+        valid = false;
+      }
+
+      // Validar email (simple)
+      const email = document.getElementById('email');
+      const reEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!reEmail.test(email.value)) {
+        document.getElementById('errorEmail').textContent = 'Debes ingresar un email válido';
+        valid = false;
+      }
+
+      // Validar contraseña
+      const pw = document.getElementById('password');
+      if (pw.value.length < 8) {
+        document.getElementById('errorPassword').textContent = 'La contraseña debe tener al menos 8 caracteres';
+        valid = false;
+      }
+
+      if (!valid) e.preventDefault();
+    });
+  </script>
 </body>
 </html>

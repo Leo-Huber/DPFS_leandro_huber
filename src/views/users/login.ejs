@@ -1,16 +1,64 @@
 <!DOCTYPE html>
 <html lang="es">
-  <% include ../partials/head.ejs %>
+  <%- include('../partials/head') %>
 <body>
-  <% include ../partials/header.ejs %>
+  <%- include('../partials/header') %>
   <main>
-    <h2>Login</h2>
-    <form action="/users/login" method="post">
-      <input type="email" name="email" placeholder="Correo electrónico">
-      <input type="password" name="password" placeholder="Contraseña">
+    <h2>Iniciar Sesión</h2>
+
+    <!-- Error de credenciales o validaciones back-end -->
+    <% if (errors.email) { %>
+      <p class="error"><%= errors.email.msg %></p>
+    <% } %>
+    <% if (errors.password) { %>
+      <p class="error"><%= errors.password.msg %></p>
+    <% } %>
+    <% if (errors.credentials) { %>
+      <p class="error"><%= errors.credentials.msg %></p>
+    <% } %>
+
+    <form id="formLogin" action="/users/login" method="post" novalidate>
+      <input type="email" name="email" id="email" placeholder="Correo electrónico" required>
+      <small class="field-error" id="errorEmail"></small>
+
+      <input type="password" name="password" id="password" placeholder="Contraseña" required>
+      <small class="field-error" id="errorPassword"></small>
+
+      <label><input type="checkbox" name="remember"> Recuérdame</label>
+      <br>
+
       <button class="btn" type="submit">Ingresar</button>
     </form>
   </main>
-  <% include ../partials/footer.ejs %>
+
+  <%- include('../partials/footer') %>
+
+  <!-- Validación front-end con JS -->
+  <script>
+    document.getElementById('formLogin').addEventListener('submit', function (e) {
+      let valid = true;
+
+      // Limpiar errores previos
+      document.getElementById('errorEmail').textContent = '';
+      document.getElementById('errorPassword').textContent = '';
+
+      // Validar email
+      const email = document.getElementById('email');
+      const reEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!reEmail.test(email.value.trim())) {
+        document.getElementById('errorEmail').textContent = 'Debes ingresar un email válido';
+        valid = false;
+      }
+
+      // Validar contraseña
+      const pw = document.getElementById('password');
+      if (pw.value.length === 0) {
+        document.getElementById('errorPassword').textContent = 'La contraseña es obligatoria';
+        valid = false;
+      }
+
+      if (!valid) e.preventDefault();
+    });
+  </script>
 </body>
 </html>

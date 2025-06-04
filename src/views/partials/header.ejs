@@ -2,11 +2,19 @@
   <nav>
     <a href="/"><h1>Green Harvest</h1></a>
     <ul>
-      <li><a href="/">Home</a></li>
       <li><a href="/products">Productos</a></li>
       <li><a href="/cart">Carrito</a></li>
-      <li><a href="/users/register">Registro</a></li>
-      <li><a href="/users/login">Login</a></li>
+      <% if (!user) { %>
+        <li><a href="/users/register">Registro</a></li>
+        <li><a href="/users/login">Login</a></li>
+      <% } else { %>
+        <li><a href="/users/profile">Perfil</a></li>
+        <li>
+          <form action="/users/logout" method="post" style="display:inline">
+            <button class="btn" type="submit">Logout</button>
+          </form>
+        </li>
+      <% } %>
     </ul>
   </nav>
 </header>

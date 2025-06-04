@@ -1,18 +1,25 @@
 {
   "name": "green-harvest",
   "version": "1.0.0",
-  "description": "Marketplace de productos orgánicos",
+  "description": "Marketplace de productos orgánicos - Sprint 7",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "db:test": "node src/database/testConnection.js"
   },
   "dependencies": {
-    "bcryptjs": "^3.0.2",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "express-validator": "^6.15.0",
     "method-override": "^3.0.0",
-    "multer": "^2.0.0"
+    "multer": "^1.4.4",
+    "sequelize": "^6.32.1",
+    "mysql2": "^3.3.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
