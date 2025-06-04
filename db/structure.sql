@@ -1,4 +1,3 @@
--- structure.sql
 CREATE DATABASE IF NOT EXISTS green_harvest;
 USE green_harvest;
 
@@ -33,11 +32,11 @@ CREATE TABLE colors (
   name VARCHAR(50) NOT NULL UNIQUE
 );
 
--- Tabla pivote Productos-Colores (many-to-many)
+-- Tabla pivote Productos-Colores (relación muchos a muchos)
 CREATE TABLE product_colors (
   product_id INT NOT NULL,
   color_id INT NOT NULL,
-  PRIMARY KEY (product_id,color_id),
+  PRIMARY KEY (product_id, color_id),
   FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
   FOREIGN KEY (color_id) REFERENCES colors(id)   ON DELETE CASCADE
 );

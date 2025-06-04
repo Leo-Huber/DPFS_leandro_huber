@@ -1,4 +1,3 @@
--- data.sql (si quieres poblar con algunos registros)
 USE green_harvest;
 
 INSERT INTO colors (name) VALUES ('rojo'),('verde'),('marrón');
