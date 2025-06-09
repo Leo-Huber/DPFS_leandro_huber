@@ -1,9 +1,10 @@
+// src/controllers/productsController.js
 const fs = require('fs');
 const path = require('path');
 const { validationResult } = require('express-validator');
 
+// Lectura/escritura en JSON (cámbialo por Sequelize si migraste datos a BD)
 const dataPath = path.join(__dirname, '../data/products.json');
-
 function readProducts() {
   return JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 }
@@ -12,38 +13,47 @@ function writeProducts(products) {
 }
 
 module.exports = {
+  // Listar productos
   list: (req, res) => {
     const products = readProducts();
-    res.render('products/list', { title: 'Productos', products });
+    return res.render('products/list', { title: 'Productos', products });
   },
 
+  // Detalle de producto
   detail: (req, res) => {
     const products = readProducts();
     const product = products.find(p => p.id == req.params.id);
-    res.render('products/detail', { title: product.name, product });
+    if (!product) {
+      return res.status(404).send('Producto no encontrado');
+    }
+    return res.render('products/detail', { title: product.name, product });
   },
 
+  // Mostrar formulario de creación
   createForm: (req, res) => {
-    res.render('products/form-create', { title: 'Crear Producto' });
+    const errors = res.locals.errors || {};
+    return res.render('products/form-create', { title: 'Crear Producto', errors, old: {} });
   },
 
+  // Crear producto (procesar POST)
   create: (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       req.session.errors = errors.mapped();
+      req.session.old = { ...req.body };
       return res.redirect('/products/create');
     }
 
     const products = readProducts();
     const { name, description, category, colors, price } = req.body;
+    let productColors = [];
+    if (colors) {
+      productColors = colors.split(',').map(c => c.trim()).filter(c => c.length);
+    }
 
-    // Validar imagen: si no se subió, usamos default
-    let imagePath;
+    let imagePath = '/images/products/default.png';
     if (req.file) {
       imagePath = `/images/products/${req.file.filename}`;
-    } else {
-      productColors = colors.split(',').map(c => c.trim()).filter(c => c.length);
-      imagePath = '/images/products/default.png';
     }
 
     const newId = products.length ? products[products.length - 1].id + 1 : 1;
@@ -57,15 +67,22 @@ module.exports = {
       price: parseFloat(price)
     });
     writeProducts(products);
-    res.redirect('/products');
+
+    return res.redirect('/products');
   },
 
+  // Mostrar formulario de edición
   editForm: (req, res) => {
     const products = readProducts();
     const product = products.find(p => p.id == req.params.id);
-    res.render('products/form-edit', { title: 'Editar Producto', product });
+    if (!product) {
+      return res.status(404).send('Producto no encontrado');
+    }
+    const errors = res.locals.errors || {};
+    return res.render('products/form-edit', { title: 'Editar Producto', product, errors, old: {} });
   },
 
+  // Actualizar producto (PUT)
   update: (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -75,9 +92,16 @@ module.exports = {
 
     const products = readProducts();
     const idx = products.findIndex(p => p.id == req.params.id);
-    if (idx < 0) return res.redirect('/products');
+    if (idx < 0) {
+      return res.status(404).send('Producto no encontrado');
+    }
 
     const { name, description, category, colors, price } = req.body;
+    let productColors = [];
+    if (colors) {
+      productColors = colors.split(',').map(c => c.trim()).filter(c => c.length);
+    }
+
     let imagePath = products[idx].image;
     if (req.file) {
       imagePath = `/images/products/${req.file.filename}`;
@@ -89,17 +113,19 @@ module.exports = {
       description,
       image: imagePath,
       category,
-      colors: colors.split(',').map(c => c.trim()).filter(c => c.length),
+      colors: productColors,
       price: parseFloat(price)
     };
     writeProducts(products);
-    res.redirect(`/products/${req.params.id}`);
+
+    return res.redirect(`/products/${req.params.id}`);
   },
 
+  // Borrar producto (DELETE)
   destroy: (req, res) => {
     let products = readProducts();
     products = products.filter(p => p.id != req.params.id);
     writeProducts(products);
-    res.redirect('/products');
+    return res.redirect('/products');
   }
 };

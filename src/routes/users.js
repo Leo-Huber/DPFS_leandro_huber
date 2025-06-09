@@ -1,12 +1,15 @@
+// src/routes/users.js
 const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
-const usersController = require('../controllers/usersController');
 const multer = require('multer');
 const upload = multer({ dest: 'src/public/images/users' });
+const usersController = require('../controllers/usersController');
 const { guestOnly, authOnly } = require('../middlewares/authMiddleware');
 
-// Validaciones de back-end para registro
+// ————————————————
+// Validaciones back‐end para el registro
+// ————————————————
 const registerValidators = [
   body('firstName')
     .notEmpty().withMessage('El nombre es obligatorio')
@@ -20,10 +23,12 @@ const registerValidators = [
     .normalizeEmail(),
   body('password')
     .notEmpty().withMessage('La contraseña es obligatoria')
-    .isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres'),
+    .isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres')
 ];
 
-// Validaciones de back-end para login
+// ————————————————
+// Validaciones back‐end para el login
+// ————————————————
 const loginValidators = [
   body('email')
     .notEmpty().withMessage('El email es obligatorio')
@@ -33,7 +38,7 @@ const loginValidators = [
     .notEmpty().withMessage('La contraseña es obligatoria')
 ];
 
-// Registro
+// Rutas de registro
 router.get('/register', guestOnly, usersController.registerForm);
 router.post(
   '/register',
@@ -43,7 +48,7 @@ router.post(
   usersController.register
 );
 
-// Login
+// Rutas de login
 router.get('/login', guestOnly, usersController.loginForm);
 router.post(
   '/login',
@@ -52,10 +57,10 @@ router.post(
   usersController.login
 );
 
-// Logout
+// Ruta de logout
 router.post('/logout', authOnly, usersController.logout);
 
-// Perfil
+// Ruta de perfil
 router.get('/profile', authOnly, usersController.profile);
 
 module.exports = router;

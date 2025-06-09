@@ -1,78 +1,130 @@
 <!DOCTYPE html>
 <html lang="es">
-  <%- include('../partials/head') %>
+<%- include('../partials/head') %>
 <body>
   <%- include('../partials/header') %>
+
   <main>
-    <h2>Crear Producto</h2>
+    <h2>Crear Nuevo Producto</h2>
 
-    <!-- Errores de validación back-end -->
-    <% if (errors.name) { %>
-      <p class="error"><%= errors.name.msg %></p>
-    <% } %>
-    <% if (errors.description) { %>
-      <p class="error"><%= errors.description.msg %></p>
-    <% } %>
-    <% if (errors.price) { %>
-      <p class="error"><%= errors.price.msg %></p>
-    <% } %>
+    <form id="formCreate" action="/products/create" method="POST" enctype="multipart/form-data">
+      <!-- Nombre -->
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          value="<%= old.name ? old.name : '' %>"
+        >
+        <% if (errors.name) { %>
+          <small class="field-error"><%= errors.name.msg %></small>
+        <% } %>
+        <small class="frontend-error" id="errorName"></small>
+      </div>
 
-    <form id="formCreate" action="/products/create" method="post" enctype="multipart/form-data" novalidate>
-      <input type="text" name="name" id="name" placeholder="Nombre" required minlength="5">
-      <small class="field-error" id="errorName"></small>
+      <!-- Descripción -->
+      <div class="form-group">
+        <label for="description">Descripción</label>
+        <textarea
+          name="description"
+          id="description"
+          rows="4"
+        ><%= old.description ? old.description : '' %></textarea>
+        <% if (errors.description) { %>
+          <small class="field-error"><%= errors.description.msg %></small>
+        <% } %>
+        <small class="frontend-error" id="errorDescription"></small>
+      </div>
 
-      <textarea name="description" id="description" placeholder="Descripción" required minlength="20"></textarea>
-      <small class="field-error" id="errorDescription"></small>
+      <!-- Categoría -->
+      <div class="form-group">
+        <label for="category">Categoría</label>
+        <input
+          type="text"
+          name="category"
+          id="category"
+          value="<%= old.category ? old.category : '' %>"
+        >
+      </div>
 
-      <label for="image">Imagen del producto:</label>
-      <input type="file" name="image" id="image" accept="image/*">
-      <br>
+      <!-- Colores -->
+      <div class="form-group">
+        <label for="colors">Colores (separados por comas)</label>
+        <input
+          type="text"
+          name="colors"
+          id="colors"
+          placeholder="ej: rojo, verde, marrón"
+          value="<%= old.colors ? old.colors : '' %>"
+        >
+      </div>
 
-      <input type="text" name="category" id="category" placeholder="Categoría">
-      <small class="field-error" id="errorCategory"></small>
+      <!-- Precio -->
+      <div class="form-group">
+        <label for="price">Precio ($)</label>
+        <input
+          type="number"
+          step="0.01"
+          min="0"
+          name="price"
+          id="price"
+          value="<%= old.price ? old.price : '' %>"
+        >
+        <% if (errors.price) { %>
+          <small class="field-error"><%= errors.price.msg %></small>
+        <% } %>
+        <small class="frontend-error" id="errorPrice"></small>
+      </div>
 
-      <input type="text" name="colors" id="colors" placeholder="Colores (separados por coma)">
-      <small class="field-error" id="errorColors"></small>
+      <!-- Imagen -->
+      <div class="form-group">
+        <label for="image">Imagen (opcional)</label>
+        <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png,.gif">
+        <% if (errors.image) { %>
+          <small class="field-error"><%= errors.image.msg %></small>
+        <% } %>
+      </div>
 
-      <input type="number" step="0.01" name="price" id="price" placeholder="Precio" required min="0.01">
-      <small class="field-error" id="errorPrice"></small>
-
-      <button class="btn" type="submit">Crear</button>
+      <button type="submit" class="btn">Crear Producto</button>
     </form>
   </main>
 
   <%- include('../partials/footer') %>
 
-  <!-- Validación front-end -->
+  <!-- Validación front‐end para formulario de creación -->
   <script>
-    document.getElementById('formCreate').addEventListener('submit', function (e) {
-      let valid = true;
-      ['name','description','price'].forEach(id => {
-        document.getElementById('error' + id.charAt(0).toUpperCase() + id.slice(1)).textContent = '';
-      });
+    document.getElementById('formCreate').addEventListener('submit', function(e) {
+      document.getElementById('errorName').innerText = '';
+      document.getElementById('errorDescription').innerText = '';
+      document.getElementById('errorPrice').innerText = '';
 
-      // Validar nombre
-      const name = document.getElementById('name');
-      if (name.value.trim().length < 5) {
-        document.getElementById('errorName').textContent = 'El nombre debe tener al menos 5 caracteres';
-        valid = false;
+      let hasErrors = false;
+      const name = document.getElementById('name').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const price = parseFloat(document.getElementById('price').value);
+
+      // Validar Nombre (≥5 caracteres)
+      if (name.length < 5) {
+        document.getElementById('errorName').innerText = 'El nombre debe tener al menos 5 caracteres';
+        hasErrors = true;
       }
 
-      // Validar descripción
-      const desc = document.getElementById('description');
-      if (desc.value.trim().length < 20) {
-        document.getElementById('errorDescription').textContent = 'La descripción debe tener al menos 20 caracteres';
-        valid = false;
+      // Validar Descripción (≥20 caracteres)
+      if (description.length < 20) {
+        document.getElementById('errorDescription').innerText = 'La descripción debe tener al menos 20 caracteres';
+        hasErrors = true;
       }
 
-      // Validar precio
-      const price = document.getElementById('price');
-      if (isNaN(price.value) || Number(price.value) <= 0) {
-        document.getElementById('errorPrice').textContent = 'El precio debe ser un número mayor que 0';
-        valid = false;
+      // Validar Precio (>0)
+      if (isNaN(price) || price <= 0) {
+        document.getElementById('errorPrice').innerText = 'El precio debe ser un número mayor que 0';
+        hasErrors = true;
       }
 
-      if (!valid) e.preventDefault();
+      if (hasErrors) {
+        e.preventDefault();
+      }
     });
   </script>
 </body>

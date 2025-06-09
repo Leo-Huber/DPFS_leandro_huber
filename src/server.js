@@ -8,43 +8,44 @@ const flashMiddleware = require('./middlewares/flashMiddleware');
 
 const app = express();
 
-// Configuración de EJS
+// Configuración del motor de vistas (EJS, si lo usas).
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Archivos estáticos
+// Archivos estáticos (CSS, imágenes, etc.).
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Parseo de formularios
+// Parseo de formularios URL-encoded
 app.use(express.urlencoded({ extended: false }));
 
-// method-override para PUT y DELETE
+// method-override para soportar PUT y DELETE mediante ?_method=PUT o en hidden input
 app.use(methodOverride('_method'));
 
-// Cookie parser
+// Cookies
 app.use(cookieParser());
 
 // Sesiones
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'un-secreto-muy-seguro',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 60 } // 1 hora
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'un-secreto-muy-seguro',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 } // 1 hora
+  })
+);
 
-// Flash de errores
+// Middleware para “flash” de errores: expone `res.locals.errors`
 app.use(flashMiddleware);
 
-// Exponer usuario y errores en toda la vista
+// Middleware global para exponer al usuario logueado (si existe) en todas las vistas
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
-  // res.locals.errors ya es llenado por flashMiddleware
   next();
 });
 
-// Rutas principales
 app.use('/', require('./routes/main'));
 
+// Finalmente arrancamos el servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
