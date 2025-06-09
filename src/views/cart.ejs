@@ -1,19 +1,63 @@
 <!DOCTYPE html>
 <html lang="es">
-  <% include ./partials/head.ejs %>
+
+<head>
+  <%- include('./partials/head', { title: title }) %>
+</head>
+
 <body>
-  <% include ./partials/header.ejs %>
-  <main>
-    <h2>Tu Carrito</h2>
-    <% cart.items.forEach(item => { %>
-      <div class="cart-item">
-        <img src="<%= item.product.image %>" alt="<%= item.product.name %>">
-        <p><%= item.product.name %> x <%= item.qty %> — $<%= (item.product.price * item.qty).toFixed(2) %></p>
-      </div>
-    <% }) %>
-    <p>Total: $<%= cart.total.toFixed(2) %></p>
-    <button class="btn">Checkout</button>
-  </main>
-  <% include ./partials/footer.ejs %>
+  <%- include('./partials/header') %>
+    <main class="container">
+      <h1>Carrito de compras</h1>
+      <% if (cart.length===0) { %>
+        <p>Tu carrito está vacío.</p>
+        <% } else { %>
+          <table>
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% let total=0; %>
+                <% cart.forEach(item=> { %>
+                  <% total +=item.qty * item.product.price; %>
+                    <tr>
+                      <td>
+                        <%= item.product.name %>
+                      </td>
+                      <td>$<%= Number(item.product.price).toFixed(2) %>
+                      </td>
+                      <td>
+                        <%= item.qty %>
+                      </td>
+                      <td>$<%= (item.qty * Number(item.product.price)).toFixed(2) %>
+                      </td>
+                      <td>
+                        <form action="/cart/remove/<%= item.product.id %>" method="POST">
+                          <button type="submit">Eliminar</button>
+                        </form>
+                      </td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3"><strong>Total:</strong></td>
+                <td colspan="2"><strong>$<%= total.toFixed(2) %></strong></td>
+              </tr>
+            </tfoot>
+          </table>
+          <form action="/cart/clear" method="POST">
+            <button type="submit">Vaciar carrito</button>
+          </form>
+          <% } %>
+    </main>
+    <%- include('./partials/footer') %>
 </body>
+
 </html>

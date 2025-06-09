@@ -1,12 +1,4 @@
-// dashboard/src/services/productService.js
-import api from './api';
+import { getRequest } from './api';
 
-export const getAllProducts = async () => {
-  const response = await api.get('/products');
-  return response.data; // { count, countByCategory, products: [...] }
-};
-
-export const getProductById = async (id) => {
-  const response = await api.get(`/products/${id}`);
-  return response.data;
-};
+export const getAllProducts = () => getRequest('/products');
+export const getProductById = id => getRequest(`/products/${id}`);

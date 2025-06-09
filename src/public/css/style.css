@@ -1,0 +1,171 @@
+/* 1) Reset muy básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2) Variables de color */
+:root {
+  --green:   #6C8C4F;
+  --orange:  #E57A36;
+  --cream:   #F5EEDD;
+  --dark:    #333;
+  --light:   #fff;
+  --muted:   #666;
+  --radius:  6px;
+}
+
+/* 3) Tipografía global */
+body {
+  font-family: 'Raleway', sans-serif;
+  background-color: var(--cream);
+  color: var(--dark);
+  line-height: 1.5;
+}
+
+/* 4) Header y navegación */
+header {
+  background-color: var(--green);
+  padding: 1rem;
+}
+header nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+header nav a {
+  color: var(--light);
+  text-decoration: none;
+  font-weight: 600;
+}
+header nav a:hover {
+  text-decoration: underline;
+}
+
+/* 5) Main container */
+main {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* 6) Títulos */
+h2 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* 7) Grid de productos */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+.product-card {
+  background-color: var(--light);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform .2s;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+}
+.product-card img {
+  width: 100%;
+  display: block;
+}
+.product-card-body {
+  padding: 1rem;
+}
+.product-card-body h3 {
+  font-size: 1.25rem;
+  margin-bottom: .5rem;
+  color: var(--green);
+}
+.product-card-body p.price {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+/* 8) Enlaces de producto */
+.product-card-body a.details {
+  display: inline-block;
+  margin-top: .75rem;
+  text-decoration: none;
+  color: var(--green);
+  font-weight: 600;
+}
+.product-card-body a.details:hover {
+  text-decoration: underline;
+}
+
+/* 9) Formularios */
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+form label {
+  font-weight: 600;
+  color: var(--muted);
+}
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="file"] {
+  width: 100%;
+  padding: .5rem;
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+  font-family: inherit;
+}
+form button {
+  padding: .75rem;
+  background-color: var(--green);
+  color: var(--light);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+form button:hover {
+  background-color: var(--orange);
+}
+
+/* 10) Enlace “volver” */
+.back-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--green);
+  text-decoration: none;
+}
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* 11) Footer */
+footer {
+  margin-top: 3rem;
+  padding: 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.cart-badge {
+  background: #c75226;
+  color: #fff;
+  border-radius: 8px;
+  padding: 0 6px;
+  font-size: 0.9em;
+  vertical-align: super;
+  margin-left: 2px;
+}

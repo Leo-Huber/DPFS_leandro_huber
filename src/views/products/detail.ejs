@@ -1,15 +1,23 @@
-<!DOCTYPE html>
-<html lang="es">
-  <% include ../partials/head.ejs %>
-<body>
-  <% include ../partials/header.ejs %>
-  <main>
-    <h2><%= product.name %></h2>
-    <img src="<%= product.image %>" alt="<%= product.name %>">
-    <p><%= product.description %></p>
-    <p>Precio: $<%= product.price.toFixed(2) %></p>
-    <button class="btn">Agregar al Carrito</button>
-  </main>
-  <% include ../partials/footer.ejs %>
-</body>
-</html>
+<%- include('../partials/head') %>
+  <%- include('../partials/header') %>
+
+    <main>
+      <h2>
+        <%= product.name %>
+      </h2>
+      <img src="<%= product.image %>" alt="<%= product.name %>"
+        style="max-width:100%;border-radius:var(--radius);margin-bottom:1rem;">
+      <p>
+        <%= product.description %>
+      </p>
+      <p>Categoría: <strong>
+          <%= product.category %>
+        </strong></p>
+      <p>Precio: <strong>$<%= product.price.toFixed(2) %></strong></p>
+      <a href="/products" class="back-link">← Volver a todos los productos</a>
+      <form action="/cart/add/<%= product.id %>" method="POST">
+        <button type="submit">Agregar al carrito</button>
+      </form>
+    </main>
+
+    <%- include('../partials/footer') %>

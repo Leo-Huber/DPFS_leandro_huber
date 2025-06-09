@@ -1,22 +1,26 @@
-<!DOCTYPE html>
-<html lang="es">
-  <%- include('../partials/head') %>
-<body>
+<%- include('../partials/head') %>
   <%- include('../partials/header') %>
-  <main>
-    <h2>Todos los Productos</h2>
-    <div class="product-grid">
-      <% products.forEach(function(p) { %>
-        <div class="product-card">
-          <a href="/products/<%= p.id %>">
-            <img src="<%= p.image %>" alt="<%= p.name %>">
-            <h3><%= p.name %></h3>
-          </a>
-          <p>$<%= p.price.toFixed(2) %></p>
-        </div>
-      <% }); %>
-    </div>
-  </main>
-  <%- include('../partials/footer') %>
-</body>
-</html>
+
+    <main>
+      <h2>Todos los Productos</h2>
+      <div class="products-grid">
+        <% products.forEach(product=> { %>
+          <div class="product-card">
+            <img src="<%= product.image %>" alt="<%= product.name %>">
+            <div class="product-card-body">
+              <h3>
+                <%= product.name %>
+              </h3>
+              <p class="price">$<%= product.price.toFixed(2) %>
+              </p>
+              <a href="/products/<%= product.id %>" class="details">Ver detalle →</a>
+              <form action="/cart/add/<%= product.id %>" method="POST">
+                <button type="submit">Agregar al carrito</button>
+              </form>
+            </div>
+          </div>
+          <% }) %>
+      </div>
+    </main>
+
+    <%- include('../partials/footer') %>

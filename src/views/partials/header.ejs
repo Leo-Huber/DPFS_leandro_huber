@@ -1,20 +1,20 @@
-<header>
-  <nav>
-    <a href="/"><h1>Green Harvest</h1></a>
-    <ul>
-      <li><a href="/products">Productos</a></li>
-      <li><a href="/cart">Carrito</a></li>
-      <% if (!user) { %>
-        <li><a href="/users/register">Registro</a></li>
-        <li><a href="/users/login">Login</a></li>
-      <% } else { %>
-        <li><a href="/users/profile">Perfil</a></li>
-        <li>
-          <form action="/users/logout" method="post" style="display:inline">
-            <button class="btn" type="submit">Logout</button>
-          </form>
-        </li>
-      <% } %>
-    </ul>
-  </nav>
-</header>
+<body>
+  <header>
+<nav>
+  <a href="/products">Productos</a>
+  <a href="/cart">
+    Carrito
+    <% if (session && session.cart && session.cart.items && session.cart.items.length > 0) { %>
+      <span class="cart-badge"><%= session.cart.items.length %></span>
+    <% } %>
+  </a>
+  <% if (user) { %>
+    <a href="/users/profile">Perfil (<%= user.firstName %>)</a>
+    <a href="/users/logout">Cerrar sesión</a>
+  <% } else { %>
+    <a href="/users/register">Registro</a>
+    <a href="/users/login">Login</a>
+  <% } %>
+</nav>
+
+  </header>

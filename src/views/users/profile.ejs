@@ -1,0 +1,19 @@
+<%- include('../partials/head') %>
+<body>
+    <%- include('../partials/header') %>
+    <main>
+        <section class="profile-container">
+            <h2>Perfil de Usuario</h2>
+            <div class="profile-card">
+                <img src="<%= user.image ? user.image : '/images/users/default.png' %>" alt="Foto de perfil" width="120" style="border-radius: 50%;" />
+                <div class="profile-details">
+                    <p><strong>Nombre:</strong> <%= user && user.firstName ? user.firstName : '' %></p>
+                    <p><strong>Apellido:</strong> <%= user && user.lastName ? user.lastName : '' %></p>
+                    <p><strong>Email:</strong> <%= user && user.email ? user.email : '' %></p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <%- include('../partials/footer') %>
+</body>
+</html>
