@@ -2,12 +2,12 @@
   <header>
 <nav>
   <a href="/products">Productos</a>
-  <a href="/cart">
-    Carrito
-    <% if (session && session.cart && session.cart.items && session.cart.items.length > 0) { %>
-      <span class="cart-badge"><%= session.cart.items.length %></span>
-    <% } %>
-  </a>
+<a href="/cart">
+  Carrito
+  <% if (cart && cart.items && cart.items.length > 0) { %>
+    <span class="cart-badge"><%= cart.items.length %></span>
+  <% } %>
+</a>
   <% if (user) { %>
     <a href="/users/profile">Perfil (<%= user.firstName %>)</a>
     <a href="/users/logout">Cerrar sesión</a>

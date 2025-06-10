@@ -1,11 +1,8 @@
-// dashboard/src/App.js
 import React from 'react';
 import Dashboard from './components/Dashboard';
 
-const App = () => (
-  <div>
-    <Dashboard />
-  </div>
-);
+function App() {
+  return <Dashboard />;
+}
 
 export default App;

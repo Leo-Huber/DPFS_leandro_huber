@@ -9,40 +9,44 @@ const { sequelize }  = require('./database/models');
 
 const app = express();
 
-// Middlewares para archivos estáticos
+// STATIC FILES
 app.use('/css', express.static(path.join(__dirname, 'public', 'css')));
 app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 
-// Session
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'green_harvest_super_secret',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 60 } // 1 hora
-}));
-
-// Otros middlewares
+// MIDDLEWARES BASICOS
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 app.use(cookieParser());
+
+// SESSION 
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'green_harvest_super_secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 }
+  })
+);
+
+// FLASH
 app.use(flashMiddleware);
 
-// Motor de vistas
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
-// User disponible en las vistas
+// DISPONIBILIDAD 
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
-  res.locals.session = req.session;
+  res.locals.cart = req.session.cart || { items: [] };
   next();
 });
 
-// Rutas
+// VIEWS
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// RUTAS
 app.use('/', require('./routes/main'));
 app.use('/cart', require('./routes/cart'));
 
-// DB y Servidor
+// SEQUELIZE SYNC
 const PORT = process.env.PORT || 3000;
 sequelize
   .sync({ alter: true })
