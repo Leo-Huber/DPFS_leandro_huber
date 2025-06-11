@@ -1,12 +1,11 @@
 {
   "name": "green-harvest",
   "version": "1.0.0",
-  "description": "Marketplace de productos orgánicos - Sprint 7",
+  "description": "Marketplace de productos orgánicos",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
-    "db:test": "node src/database/testConnection.js"
+    "dev": "nodemon src/server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

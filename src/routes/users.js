@@ -20,6 +20,6 @@ router.get('/login', auth.guestOnly, usersController.loginForm);
 router.post('/login', auth.guestOnly, usersController.login);
 
 router.get('/profile', auth.authOnly, usersController.profile);
-router.post('/logout', auth.authOnly, usersController.logout);
+router.get('/logout', usersController.logout);
 
 module.exports = router;

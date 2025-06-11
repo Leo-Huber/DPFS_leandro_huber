@@ -1,4 +1,3 @@
-// src/database/models/Color.js
 module.exports = (sequelize, DataTypes) => {
   const Color = sequelize.define('Color', {
     name: { type: DataTypes.STRING, allowNull: false, unique: true }

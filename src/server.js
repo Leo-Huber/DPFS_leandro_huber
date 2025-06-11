@@ -19,22 +19,19 @@ app.use(methodOverride('_method'));
 app.use(cookieParser());
 
 // SESSION 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || 'green_harvest_super_secret',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 }
-  })
-);
+app.use(session({
+  secret: 'green_harvest_super_secret',
+  resave: false,
+  saveUninitialized: false
+}));
 
 // FLASH
 app.use(flashMiddleware);
 
 // DISPONIBILIDAD 
 app.use((req, res, next) => {
+  res.locals.session = req.session;
   res.locals.user = req.session.user || null;
-  res.locals.cart = req.session.cart || { items: [] };
   next();
 });
 
@@ -45,6 +42,8 @@ app.set('views', path.join(__dirname, 'views'));
 // RUTAS
 app.use('/', require('./routes/main'));
 app.use('/cart', require('./routes/cart'));
+app.use('/api/products', require('./routes/api/productsApi'));
+app.use('/api/users', require('./routes/api/usersApi'));
 
 // SEQUELIZE SYNC
 const PORT = process.env.PORT || 3000;

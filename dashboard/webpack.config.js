@@ -9,7 +9,11 @@ module.exports = {
     port: 3001,
     historyApiFallback: true,
     proxy: [
-      { context: ['/api'], target: 'http://localhost:3000', secure: false }
+      {
+        context: ['/api'],
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      }
     ]
   },
   module: {
