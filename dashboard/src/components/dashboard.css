@@ -1,0 +1,63 @@
+
+.dashboard {
+  padding: 2rem;
+  background: #f5f0de;
+  font-family: 'Montserrat', sans-serif;
+}
+.dashboard-actions {
+  margin-bottom: 1rem;
+}
+.dashboard-actions button {
+  margin-right: 1rem;
+  background: #709456;
+  color: #fff;
+  border: none;
+  padding: .5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.dashboard-table th, .dashboard-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+.dashboard-table th {
+  background: #709456;
+  color: #fff;
+}
+.dashboard-table td button {
+  margin-right: 5px;
+  padding: .3rem .7rem;
+  border-radius: 5px;
+  border: none;
+  background: #709456;
+  color: #fff;
+  cursor: pointer;
+}
+.dashboard-table td .danger {
+  background: #d33;
+}
+
+/* Modal */
+.modal {
+  position: fixed; top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 1000;
+}
+.modal-form {
+  background: #fff; padding: 2rem; border-radius: 8px; min-width: 300px;
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.modal-form input {
+  padding: .5rem; border: 1px solid #ccc; border-radius: 4px;
+}
+.modal-form button {
+  margin-top: .5rem;
+}
