@@ -21,3 +21,13 @@ Hola, soy Leandro Huber, desarrollador full-stack con experiencia en Node.js, Re
 ## Tablero de trabajo
 Link al tablero de organización (Trello):
 https://trello.com/b/TeR5T2rd/mi-tablero-de-trello
+
+Para correr el proyecto
+
+en 1 terminar correr: npm install y luego npm run dev
+en otra terminal en paralelo correr: npm run dev
+
+localhost:3000 es para la pagina
+localhost:3001 es para el dashboard
+
+imagenes sobre el uso de las paginas en la carpeta "docs"
