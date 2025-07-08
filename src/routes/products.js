@@ -1,4 +1,3 @@
-// src/routes/products.js
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
@@ -28,12 +27,18 @@ router.get('/products', productsController.list);
 router.get('/products/create', productsController.createForm);
 
 // Crear producto (POST)
-router.post(
-  '/products/create',
-  upload.single('image'),
-  productValidators,
-  productsController.create
-);
+router.post('/', async (req, res) => {
+  try {
+    let { name, description, price, image } = req.body;
+    if (!name || !description || !price) return res.status(400).json({ error: 'Faltan campos obligatorios' });
+    // Asignar imagen por defecto si viene vacío, null o undefined
+    if (!image || image.trim() === "") image = '/images/products/default.jpg';
+    const newProduct = await Product.create({ name, description, price, image });
+    res.status(201).json(newProduct);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al crear producto.' });
+  }
+});
 
 // Detalle de producto
 router.get('/products/:id', productsController.detail);
@@ -42,12 +47,19 @@ router.get('/products/:id', productsController.detail);
 router.get('/products/:id/edit', productsController.editForm);
 
 // Actualizar producto (PUT)
-router.put(
-  '/products/:id',
-  upload.single('image'),
-  productValidators,
-  productsController.update
-);
+router.put('/:id', async (req, res) => {
+  try {
+    let { name, description, price, image } = req.body;
+    const product = await Product.findByPk(req.params.id);
+    if (!product) return res.status(404).json({ error: 'Producto no encontrado.' });
+    // Mantener la imagen previa si no se envía una imagen nueva
+    if (!image || image.trim() === "") image = product.image || '/images/products/default.jpg';
+    await product.update({ name, description, price, image });
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al actualizar producto.' });
+  }
+});
 
 // Borrar producto (DELETE)
 router.delete('/products/:id', productsController.destroy);

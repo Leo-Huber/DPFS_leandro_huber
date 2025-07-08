@@ -16,10 +16,14 @@ export default function Dashboard() {
 
   // Cargar usuarios y productos
   const fetchData = async () => {
-    const usersRes = await fetch(`${API}/users`);
-    const productsRes = await fetch(`${API}/products`);
-    setUsers(await usersRes.json());
-    setProducts(await productsRes.json());
+    try {
+      const usersRes = await fetch(`${API}/users`);
+      const productsRes = await fetch(`${API}/products`);
+      setUsers(await usersRes.json());
+      setProducts(await productsRes.json());
+    } catch (err) {
+      Swal.fire("Error", "No se pudo cargar los datos", "error");
+    }
   };
 
   useEffect(() => { fetchData(); }, []);
@@ -34,9 +38,13 @@ export default function Dashboard() {
       confirmButtonText: "Sí, eliminar",
     });
     if (result.isConfirmed) {
-      await fetch(`${API}/users/${id}`, { method: "DELETE" });
-      Swal.fire("¡Eliminado!", "Usuario eliminado.", "success");
-      fetchData();
+      const res = await fetch(`${API}/users/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        Swal.fire("¡Eliminado!", "Usuario eliminado.", "success");
+        fetchData();
+      } else {
+        Swal.fire("Error", "No se pudo eliminar el usuario", "error");
+      }
     }
   };
 
@@ -50,9 +58,13 @@ export default function Dashboard() {
       confirmButtonText: "Sí, eliminar",
     });
     if (result.isConfirmed) {
-      await fetch(`${API}/products/${id}`, { method: "DELETE" });
-      Swal.fire("¡Eliminado!", "Producto eliminado.", "success");
-      fetchData();
+      const res = await fetch(`${API}/products/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        Swal.fire("¡Eliminado!", "Producto eliminado.", "success");
+        fetchData();
+      } else {
+        Swal.fire("Error", "No se pudo eliminar el producto", "error");
+      }
     }
   };
 
@@ -89,14 +101,21 @@ export default function Dashboard() {
       <h3>Productos ({products.length})</h3>
       <table className="dashboard-table">
         <thead>
-          <tr><th>ID</th><th>Nombre</th><th>Precio</th><th>Acciones</th></tr>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Categoría</th> {/* NUEVO */}
+            <th>Precio</th>
+            <th>Acciones</th>
+          </tr>
         </thead>
         <tbody>
           {products.map(p => (
             <tr key={p.id}>
               <td>{p.id}</td>
               <td>{p.name}</td>
-              <td>${parseFloat(p.price).toFixed(2)}</td>
+              <td>{p.category || "Sin categoría"}</td> {/* NUEVO */}
+              <td>${Number(p.price).toFixed(2)}</td>
               <td>
                 <button onClick={() => { setEditingProduct(p); setShowProductForm(true); }}>Editar</button>
                 <button className="danger" onClick={() => handleDeleteProduct(p.id)}>Eliminar</button>
@@ -110,13 +129,19 @@ export default function Dashboard() {
       {showUserForm &&
         <UserForm
           user={editingUser}
-          onClose={() => { setShowUserForm(false); fetchData(); }}
+          onClose={(reload = false) => {
+            setShowUserForm(false);
+            if (reload) fetchData();
+          }}
         />
       }
       {showProductForm &&
         <ProductForm
           product={editingProduct}
-          onClose={() => { setShowProductForm(false); fetchData(); }}
+          onClose={(reload = false) => {
+            setShowProductForm(false);
+            if (reload) fetchData();
+          }}
         />
       }
     </div>

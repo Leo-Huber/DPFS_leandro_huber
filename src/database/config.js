@@ -1,4 +1,3 @@
-// src/database/config.js
 require('dotenv').config();
 
 module.exports = {

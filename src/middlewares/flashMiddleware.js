@@ -1,4 +1,3 @@
-// src/middlewares/flashMiddleware.js
 module.exports = (req, res, next) => {
   // Exponer errores de validación (si existen)
   res.locals.errors = req.session.errors || {};

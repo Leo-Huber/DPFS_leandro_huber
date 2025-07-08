@@ -1,4 +1,3 @@
-// dashboard/src/components/LastItemCard.js
 import React from 'react';
 
 const cardStyle = {

@@ -11,7 +11,7 @@
               <h3>
                 <%= product.name %>
               </h3>
-              <p class="price">$<%= product.price.toFixed(2) %>
+              <p class="price">$<%= Number(product.price).toFixed(2) %></p>
               </p>
               <a href="/products/<%= product.id %>" class="details">Ver detalle →</a>
               <form action="/cart/add/<%= product.id %>" method="POST">

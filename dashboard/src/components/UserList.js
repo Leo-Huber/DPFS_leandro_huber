@@ -1,4 +1,3 @@
-// dashboard/src/components/UserList.js
 import React from 'react';
 
 const tableStyle = {

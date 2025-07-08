@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Product } = require('../../database/models');
 
-// Obtener todos los productos
+// Listar productos
 router.get('/', async (req, res) => {
   try {
     const products = await Product.findAll();
@@ -26,35 +26,50 @@ router.get('/:id', async (req, res) => {
 // Crear producto
 router.post('/', async (req, res) => {
   try {
-    const { name, description, image, category, price } = req.body;
-    const nuevo = await Product.create({ name, description, image, category, price });
-    res.status(201).json(nuevo);
+    const { name, description, price, image, category } = req.body; // <-- AGREGA category
+    if (!name || !description || !price) return res.status(400).json({ error: 'Faltan campos obligatorios' });
+    const newProduct = await Product.create({
+      name,
+      description,
+      price,
+      image: image || '/images/products/default.jpg',
+      category: category || 'Sin categoría'
+    });
+    res.status(201).json(newProduct);
   } catch (error) {
-    res.status(400).json({ error: 'Error al crear producto.' });
+    res.status(500).json({ error: 'Error al crear producto.' });
   }
 });
 
 // Editar producto
 router.put('/:id', async (req, res) => {
   try {
-    const producto = await Product.findByPk(req.params.id);
-    if (!producto) return res.status(404).json({ error: 'Producto no encontrado.' });
-    await producto.update(req.body);
-    res.json(producto);
+    const { name, description, price, image, category } = req.body; // <-- AGREGA category
+    const product = await Product.findByPk(req.params.id);
+    if (!product) return res.status(404).json({ error: 'Producto no encontrado.' });
+    await product.update({
+      name,
+      description,
+      price,
+      image: image || product.image,
+      category: category || product.category
+    });
+    res.json(product);
   } catch (error) {
-    res.status(400).json({ error: 'Error al actualizar producto.' });
+    res.status(500).json({ error: 'Error al actualizar producto.' });
   }
 });
+
 
 // Eliminar producto
 router.delete('/:id', async (req, res) => {
   try {
-    const producto = await Product.findByPk(req.params.id);
-    if (!producto) return res.status(404).json({ error: 'Producto no encontrado.' });
-    await producto.destroy();
-    res.json({ message: 'Producto eliminado correctamente.' });
+    const product = await Product.findByPk(req.params.id);
+    if (!product) return res.status(404).json({ error: 'Producto no encontrado.' });
+    await product.destroy();
+    res.json({ message: 'Producto eliminado.' });
   } catch (error) {
-    res.status(400).json({ error: 'Error al eliminar producto.' });
+    res.status(500).json({ error: 'Error al eliminar producto.' });
   }
 });
 

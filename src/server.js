@@ -14,9 +14,10 @@ app.use('/css', express.static(path.join(__dirname, 'public', 'css')));
 app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 
 // MIDDLEWARES BASICOS
-app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // SESSION 
 app.use(session({
@@ -54,3 +55,5 @@ sequelize
     app.listen(PORT, () => console.log(`Servidor en http://localhost:${PORT}`));
   })
   .catch(err => console.error('Error sync DB:', err));
+
+  module.exports = app;
